@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Caike Ribeiro — Dev Back-end</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0a0a0f;
+            --bg-raised: #121017;
+            --bg-raised-2: #17141e;
+            --line: #262230;
+            --line-soft: #1c1922;
+            --ink: #f1eefa;
+            --ink-dim: #9c96ac;
+            --ink-faint: #6d6786;
+            --violet: #a996ff;
+            --violet-deep: #6c53d1;
+            --violet-dim: #4a3f80;
+            --glow: #ff7ce0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        ::selection {
+            background: var(--violet-deep);
+            color: #fff;
+        }
+
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .eyebrow {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: var(--violet);
+            letter-spacing: 0.5px;
+            margin-bottom: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .eyebrow::before {
+            content: '';
+            width: 14px;
+            height: 1px;
+            background: var(--violet);
+            display: inline-block;
+        }
+
+        .wrap {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 3rem;
+        }
+
+        /* ── NAV ── */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 200;
+            background: rgba(10, 10, 15, 0.72);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--line-soft);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.1rem 3rem;
+            max-width: 1180px;
+            margin: 0 auto;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            text-decoration: none;
+        }
+
+        .nav-mark {
+            width: 28px;
+            height: 28px;
+            border: 1px solid var(--violet);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--violet);
+        }
+
+        .nav-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--ink);
+            letter-spacing: 0.2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--ink-dim);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.4px;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--violet);
+        }
+
+        .nav-status {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--ink-dim);
+            border: 1px solid var(--line);
+            padding: 5px 12px;
+            border-radius: 100px;
+        }
+
+        .nav-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #6ee7a0;
+            box-shadow: 0 0 0 3px rgba(110, 231, 160, 0.18);
+        }
+
+        .nav-toggle {
+            display: none;
+        }
+
+        /* ── HERO ── */
+        #inicio {
+            padding: 9.5rem 3rem 0;
+            position: relative;
+        }
+
+        .hero-grid {
+            max-width: 1180px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .hero-left {
+            animation: fadeUp 0.8s ease both;
+        }
+
+        h1.hero-title {
+            font-family: 'Unbounded', sans-serif;
+            font-weight: 800;
+            font-size: clamp(3rem, 6.4vw, 5.4rem);
+            line-height: 0.98;
+            letter-spacing: -2px;
+            text-transform: uppercase;
+            margin-bottom: 1.1rem;
+        }
+
+        h1.hero-title span {
+            display: block;
+        }
+
+        .hero-title .last {
+            color: var(--violet);
+            -webkit-text-stroke: 1px var(--violet);
+        }
+
+        .hero-role {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95rem;
+            color: var(--ink-dim);
+            margin-bottom: 1.7rem;
+        }
+
+        .hero-role b {
+            color: var(--ink);
+            font-weight: 500;
+        }
+
+        .hero-desc {
+            font-size: 1.02rem;
+            color: var(--ink-dim);
+            line-height: 1.75;
+            max-width: 480px;
+            margin-bottom: 2.3rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: var(--violet);
+            color: #0a0a0f;
+            border: none;
+            padding: 0.9rem 1.8rem;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.2s;
+            font-family: 'Manrope', sans-serif;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(169, 150, 255, 0.25);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--ink);
+            border: 1px solid var(--line);
+            padding: 0.9rem 1.8rem;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: border-color 0.2s, color 0.2s, transform 0.15s;
+            font-family: 'Manrope', sans-serif;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--violet);
+            color: var(--violet);
+            transform: translateY(-2px);
+        }
+
+        /* Portrait */
+        .hero-right {
+            display: flex;
+            justify-content: center;
+            animation: fadeUp 0.9s 0.15s ease both;
+        }
+
+        .portrait {
+            position: relative;
+            width: 100%;
+            max-width: 340px;
+            aspect-ratio: 3/4;
+            transform: rotate(2deg);
+        }
+
+        .portrait-frame {
+            position: absolute;
+            inset: 0;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            box-shadow: 0 0 0 1px rgba(169, 150, 255, 0.06), 0 40px 80px -20px rgba(169, 150, 255, 0.18);
+            background: var(--bg-raised);
+        }
+
+        .portrait-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(0.35) contrast(1.12) brightness(0.88);
+        }
+
+        .portrait-tint {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(200deg, rgba(169, 150, 255, 0.35), rgba(10, 10, 15, 0.15) 45%, rgba(255, 124, 224, 0.12));
+            mix-blend-mode: color;
+            pointer-events: none;
+        }
+
+        .portrait-scan {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 3px;
+            top: -3px;
+            background: linear-gradient(90deg, transparent, var(--violet), transparent);
+            opacity: 0.85;
+            animation: scan 1.6s ease-in-out 0.4s 1 both;
+        }
+
+        @keyframes scan {
+            0% {
+                top: -3px;
+                opacity: 0;
+            }
+            15% {
+                opacity: 1;
+            }
+            100% {
+                top: 100%;
+                opacity: 0;
+            }
+        }
+
+        .corner {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-color: var(--violet);
+            opacity: 0.9;
+        }
+
+        .corner.tl {
+            top: -8px;
+            left: -8px;
+            border-top: 2px solid;
+            border-left: 2px solid;
+        }
+
+        .corner.br {
+            bottom: -8px;
+            right: -8px;
+            border-bottom: 2px solid;
+            border-right: 2px solid;
+        }
+
+        .portrait-badge {
+            position: absolute;
+            bottom: -16px;
+            left: -18px;
+            background: var(--bg-raised-2);
+            border: 1px solid var(--line);
+            border-radius: 9px;
+            padding: 9px 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--ink-dim);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+        }
+
+        .portrait-badge .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #6ee7a0;
+            box-shadow: 0 0 0 3px rgba(110, 231, 160, 0.18);
+        }
+
+        .hero-strip {
+            max-width: 1180px;
+            margin: 4.5rem auto 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.1rem 0;
+            border-top: 1px solid var(--line-soft);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--ink-faint);
+            letter-spacing: 0.5px;
+        }
+
+        /* ── TICKER ── */
+        .ticker-band {
+            background: var(--bg-raised);
+            border-top: 1px solid var(--line-soft);
+            border-bottom: 1px solid var(--line-soft);
+            overflow: hidden;
+            padding: 1rem 0;
+        }
+
+        .ticker-track {
+            display: flex;
+            width: max-content;
+            animation: ticker 32s linear infinite;
+        }
+
+        .ticker-track span {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95rem;
+            color: var(--ink-faint);
+            padding: 0 1.6rem;
+            white-space: nowrap;
+        }
+
+        .ticker-track span.hl {
+            color: var(--violet);
+        }
+
+        @keyframes ticker {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* ── SECTION BASE ── */
+        .section {
+            padding: 6rem 3rem;
+        }
+
+        .section-head {
+            max-width: 1180px;
+            margin: 0 auto 3rem;
+        }
+
+        .section-title {
+            font-family: 'Unbounded', sans-serif;
+            font-size: clamp(1.7rem, 3vw, 2.4rem);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: var(--ink);
+        }
+
+        .section-inner {
+            max-width: 1180px;
+            margin: 0 auto;
+        }
+
+        /* ── SOBRE ── */
+        #sobre {
+            border-top: 1px solid var(--line-soft);
+        }
+
+        .sobre-grid {
+            max-width: 1180px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3.5rem;
+        }
+
+        .sobre-quote {
+            font-family: 'Unbounded', sans-serif;
+            font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+            font-weight: 600;
+            line-height: 1.35;
+            color: var(--ink);
+        }
+
+        .sobre-quote .violet {
+            color: var(--violet);
+        }
+
+        .sobre-text {
+            color: var(--ink-dim);
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 1.8rem;
+        }
+
+        .focus-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+
+        .focus-item {
+            display: flex;
+            gap: 0.7rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.83rem;
+            color: var(--ink-dim);
+            line-height: 1.6;
+        }
+
+        .focus-item span.pre {
+            color: var(--violet);
+        }
+
+        /* ── STACK ── */
+        #stack {
+            background: var(--bg-raised);
+            border-top: 1px solid var(--line-soft);
+            border-bottom: 1px solid var(--line-soft);
+        }
+
+        .stack-grid {
+            max-width: 1180px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem;
+        }
+
+        .stack-col-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--violet);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .stack-item {
+            display: flex;
+            align-items: baseline;
+            gap: 0.7rem;
+            padding: 0.6rem 0;
+            font-size: 0.98rem;
+            color: var(--ink);
+            border-bottom: 1px solid var(--line-soft);
+        }
+
+        .stack-item:last-child {
+            border-bottom: none;
+        }
+
+        .stack-item::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--violet-dim);
+            flex-shrink: 0;
+        }
+
+        .stack-item .tag {
+            margin-left: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem;
+            color: var(--ink-faint);
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        /* ── PROJETOS ── */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.4rem;
+        }
+
+        .project-card {
+            position: relative;
+            background: var(--bg-raised-2);
+            border: 1px solid var(--line);
+            padding: 1.7rem 1.6rem 1.6rem;
+            clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 0 100%);
+            transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+            display: flex;
+            flex-direction: column;
+            min-height: 100%;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 22px;
+            height: 22px;
+            border-top: 1px solid var(--violet-dim);
+            border-right: 1px solid var(--violet-dim);
+            clip-path: polygon(60% 0, 100% 0, 100% 100%);
+            transition: border-color 0.25s;
+        }
+
+        .project-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(169, 150, 255, 0.05), transparent 40%);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.25s;
+        }
+
+        .project-card:hover {
+            border-color: var(--violet-dim);
+            transform: translateY(-6px);
+            box-shadow: 0 24px 50px -18px rgba(169, 150, 255, 0.28);
+        }
+
+        .project-card:hover::before {
+            border-color: var(--violet);
+        }
+
+        .project-card:hover::after {
+            opacity: 1;
+        }
+
+        .project-card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.4rem;
+        }
+
+        .project-index {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--ink-faint);
+            letter-spacing: 1px;
+        }
+
+        .project-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.66rem;
+            color: var(--ink-faint);
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .project-status .dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #6ee7a0;
+            box-shadow: 0 0 0 3px rgba(110, 231, 160, 0.16);
+        }
+
+        .project-status.wip .dot {
+            background: #ffb85c;
+            box-shadow: 0 0 0 3px rgba(255, 184, 92, 0.16);
+        }
+
+        .project-name {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: var(--ink);
+        }
+
+        .project-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .project-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.66rem;
+            color: var(--violet);
+            border: 1px solid var(--violet-dim);
+            padding: 3px 10px;
+            letter-spacing: 0.3px;
+        }
+
+        .project-desc {
+            color: var(--ink-dim);
+            font-size: 0.9rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .project-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.55rem;
+            align-items: flex-start;
+            border-top: 1px solid var(--line-soft);
+            padding-top: 1rem;
+        }
+
+        .project-link {
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-decoration: none;
+            color: var(--ink);
+            transition: color 0.2s;
+        }
+
+        .project-link:hover {
+            color: var(--violet);
+        }
+
+        .project-link.muted {
+            color: var(--ink-faint);
+            cursor: default;
+        }
+
+        /* ── EXPERIENCIA ── */
+        #experiencia {
+            background: var(--bg-raised);
+            border-top: 1px solid var(--line-soft);
+            border-bottom: 1px solid var(--line-soft);
+        }
+
+        .exp-list {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .exp-item {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 2rem;
+            padding: 1.7rem 0;
+            border-top: 1px solid var(--line-soft);
+        }
+
+        .exp-item:last-child {
+            border-bottom: 1px solid var(--line-soft);
+        }
+
+        .exp-period {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+            color: var(--violet);
+        }
+
+        .exp-role {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+            color: var(--ink);
+        }
+
+        .exp-company {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--ink-faint);
+            margin-bottom: 0.5rem;
+        }
+
+        .exp-desc {
+            color: var(--ink-dim);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* ── AGORA ── */
+        .agora-grid {
+            max-width: 1180px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.4rem;
+        }
+
+        .agora-card {
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 1.6rem;
+            background: var(--bg-raised-2);
+        }
+
+        .agora-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--violet);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.9rem;
+        }
+
+        .agora-text {
+            font-size: 0.94rem;
+            color: var(--ink-dim);
+            line-height: 1.65;
+        }
+
+        .agora-note {
+            max-width: 1180px;
+            margin: 1.6rem auto 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--ink-faint);
+        }
+
+        /* ── CONTATO ── */
+        #contato {
+            border-top: 1px solid var(--line-soft);
+        }
+
+        .contact-grid {
+            max-width: 1180px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3.5rem;
+        }
+
+        .contact-text {
+            color: var(--ink-dim);
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            max-width: 420px;
+        }
+
+        .social-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .social-link {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-top: 1px solid var(--line-soft);
+            text-decoration: none;
+            color: var(--ink);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.2s, padding-left 0.2s;
+        }
+
+        .social-link:last-child {
+            border-bottom: 1px solid var(--line-soft);
+        }
+
+        .social-link:hover {
+            color: var(--violet);
+            padding-left: 8px;
+        }
+
+        .social-link .arrow {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--ink-faint);
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            background: var(--bg-raised);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 0.9rem 1rem;
+            color: var(--ink);
+            font-family: 'Manrope', sans-serif;
+            font-size: 0.92rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            border-color: var(--violet);
+            box-shadow: 0 0 0 3px rgba(169, 150, 255, 0.18);
+        }
+
+        a:focus-visible,
+        button:focus-visible {
+            outline: 2px solid var(--violet);
+            outline-offset: 3px;
+        }
+
+        .contact-form textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .contact-form ::placeholder {
+            color: var(--ink-faint);
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            padding: 2.2rem 3rem;
+            border-top: 1px solid var(--line-soft);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1180px;
+            margin: 0 auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--ink-faint);
+        }
+
+        /* ── ANIM ── */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            .wrap,
+            nav,
+            #inicio,
+            .section {
+                padding-left: 1.4rem;
+                padding-right: 1.4rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-right {
+                order: -1;
+                margin-bottom: 1rem;
+            }
+
+            .portrait {
+                max-width: 240px;
+            }
+
+            .hero-strip {
+                flex-direction: column;
+                gap: 0.4rem;
+                align-items: flex-start;
+            }
+
+            .sobre-grid,
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .stack-grid,
+            .agora-grid,
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 1.8rem;
+            }
+
+            .exp-item {
+                grid-template-columns: 1fr;
+                gap: 0.3rem;
+            }
+
+            footer {
+                flex-direction: column;
+                gap: 0.6rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <a href="#inicio" class="nav-logo">
+                <span class="nav-mark">CK</span>
+                <span class="nav-name">caike.dev</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#sobre">Sobre</a></li>
+                <li><a href="#stack">Stack</a></li>
+                <li><a href="#projetos">Projetos</a></li>
+                <li><a href="#experiencia">Experiência</a></li>
+                <li><a href="#agora">Agora</a></li>
+                <li><a href="#contato">Contato</a></li>
+            </ul>
+            <span class="nav-status"><span class="nav-dot"></span>disponível</span>
+        </nav>
+    </header>
+
+    <!-- ── HERO ── -->
+    <section id="inicio">
+        <div class="hero-grid">
+            <div class="hero-left">
+                <div class="eyebrow">$ whoami</div>
+                <h1 class="hero-title">
+                    <span>Caike</span>
+                    <span class="last">Ribeiro</span>
+                </h1>
+                <div class="hero-role">Dev <b>Back-end</b> em formação — 2º semestre de ADS</div>
+                <p class="hero-desc">
+                    Estou construindo minha base em desenvolvimento back-end e gosto de aprender colocando a mão na massa.
+                    Tenho dedicado meu tempo aos estudos, projetos e à evolução constante para conquistar minha primeira oportunidade em TI.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#projetos" class="btn-primary">Ver projetos</a>
+                    <a href="cv/" class="btn-outline">Baixar CV</a>
+                </div>
+            </div>
+            <div class="hero-right">
+                <div class="portrait">
+                    <div class="portrait-frame">
+                        <img src="IMG/eu.photonew.jpg" alt="Foto de Caike Ribeiro" />
+                        <div class="portrait-tint"></div>
+                        <div class="portrait-scan"></div>
+                    </div>
+                    <div class="corner tl"></div>
+                    <div class="corner br"></div>
+                    <div class="portrait-badge"><span class="dot"></span>disponível para projetos</div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-strip wrap" style="padding-left:0;padding-right:0">
+            <span>BRASÍLIA · BR</span>
+            <span>scroll ↓</span>
+        </div>
+    </section>
+
+    <!-- ── TICKER ── -->
+    <div class="ticker-band">
+        <div class="ticker-track">
+            <span class="hl">JAVASCRIPT</span><span>/</span>
+            <span>NODE.JS</span><span>/</span>
+            <span class="hl">REACT</span><span>/</span>
+            <span>SQL</span><span>/</span>
+            <span class="hl">PYTHON</span><span>/</span>
+            <span>GIT & GITHUB</span><span>/</span>
+            <span class="hl">HTML & CSS</span><span>/</span>
+            <span>JAVASCRIPT</span><span>/</span>
+            <span class="hl">NODE.JS</span><span>/</span>
+            <span>REACT</span><span>/</span>
+            <span class="hl">SQL</span><span>/</span>
+            <span>PYTHON</span><span>/</span>
+            <span class="hl">GIT & GITHUB</span><span>/</span>
+            <span>HTML & CSS</span><span>/</span>
+        </div>
+    </div>
+
+    <!-- ── SOBRE ── -->
+    <section id="sobre" class="section">
+        <div class="section-head">
+            <div class="eyebrow">$ cat sobre.md</div>
+            <h2 class="section-title">Sobre mim</h2>
+        </div>
+        <div class="sobre-grid">
+            <div class="fade-up">
+                <p class="sobre-quote">Aprender em público, errar rápido e <span class="violet">construir de
+                        verdade</span> — esse é o método.</p>
+            </div>
+            <div class="fade-up">
+                <p class="sobre-text">
+                    Estou no 2º semestre de Análise e Desenvolvimento de Sistemas, migrando de carreira depois
+                    de alguns anos em áreas bem diferentes de tecnologia. Hoje meu foco é back-end — Node.js,
+                    SQL e lógica de programação — mas sigo evoluindo em front-end para entender o processo
+                    inteiro por trás de um produto.
+                </p>
+                <div class="focus-list">
+                    <div class="focus-item"><span class="pre">&gt;</span> estudando estrutura de dados, SQL e lógica</div>
+                    <div class="focus-item"><span class="pre">&gt;</span> construindo projetos reais pro portfólio</div>
+                    <div class="focus-item"><span class="pre">&gt;</span> de olho em vagas remotas e no concurso do Banco do Brasil</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── STACK ── -->
+    <section id="stack" class="section">
+        <div class="section-head">
+            <div class="eyebrow">$ ls stack/</div>
+            <h2 class="section-title">Stack técnica</h2>
+        </div>
+        <div class="stack-grid">
+            <div class="fade-up">
+                <div class="stack-col-title">Back-end</div>
+                <div class="stack-item">Node.js <span class="tag">em uso</span></div>
+                <div class="stack-item">SQL <span class="tag">em uso</span></div>
+                <div class="stack-item">Python <span class="tag">base</span></div>
+                <div class="stack-item">Lógica de programação <span class="tag">em uso</span></div>
+            </div>
+            <div class="fade-up" style="transition-delay:0.08s">
+                <div class="stack-col-title">Front-end</div>
+                <div class="stack-item">JavaScript <span class="tag">em uso</span></div>
+                <div class="stack-item">HTML &amp; CSS <span class="tag">em uso</span></div>
+                <div class="stack-item">React <span class="tag">aprendendo</span></div>
+            </div>
+            <div class="fade-up" style="transition-delay:0.16s">
+                <div class="stack-col-title">Ferramentas</div>
+                <div class="stack-item">Git &amp; GitHub <span class="tag">em uso</span></div>
+                <div class="stack-item">VS Code <span class="tag">em uso</span></div>
+                <div class="stack-item">Linha de comando <span class="tag">em uso</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── PROJETOS ── -->
+    <section id="projetos" class="section">
+        <div class="section-head">
+            <div class="eyebrow">$ git log --oneline projetos</div>
+            <h2 class="section-title">Trabalhos recentes</h2>
+        </div>
+        <div class="section-inner">
+            <div class="projects-grid">
+
+                <div class="project-card fade-up">
+                    <div class="project-card-top">
+                        <span class="project-index">01 / SITE</span>
+                        <span class="project-status"><span class="dot"></span>no ar</span>
+                    </div>
+                    <div class="project-name">techconf</div>
+                    <div class="project-tags">
+                        <span class="project-tag">HTML</span>
+                        <span class="project-tag">JavaScript</span>
+                    </div>
+                    <p class="project-desc">Plataforma de eventos tecnológicos com inscrições e gerenciamento
+                        de palestrantes.</p>
+                    <div class="project-links">
+                        <a href="https://dev-caike.github.io/techconf/" class="project-link">Ver demo →</a>
+                        <a href="https://github.com/dev-caike/techconf" class="project-link">Ver no GitHub →</a>
+                    </div>
+                </div>
+
+                <div class="project-card fade-up" style="transition-delay:0.08s">
+                    <div class="project-card-top">
+                        <span class="project-index">02 / APP</span>
+                        <span class="project-status"><span class="dot"></span>no ar</span>
+                    </div>
+                    <div class="project-name">Viver Bem</div>
+                    <div class="project-tags">
+                        <span class="project-tag">JavaScript</span>
+                        <span class="project-tag">Firebase</span>
+                    </div>
+                    <p class="project-desc">App de controle financeiro com metas, hábitos e sincronização em
+                        tempo real via Firebase, incluindo um planejador de intercâmbio internacional.</p>
+                    <div class="project-links">
+                        <a href="https://viver-bem-76a26.web.app/" class="project-link">Abrir app →</a>
+                        <a href="https://github.com/dev-caike/portfolio" class="project-link">Ver no GitHub →</a>
+                    </div>
+                </div>
+
+                <div class="project-card fade-up" style="transition-delay:0.16s">
+                    <div class="project-card-top">
+                        <span class="project-index">03 / APP</span>
+                        <span class="project-status wip"><span class="dot"></span>em build</span>
+                    </div>
+                    <div class="project-name">E-commerce App</div>
+                    <div class="project-tags">
+                        <span class="project-tag">React</span>
+                        <span class="project-tag">Node.js</span>
+                    </div>
+                    <p class="project-desc">Plataforma completa com carrinho, pagamento integrado e painel
+                        administrativo. Em construção.</p>
+                    <div class="project-links">
+                        <span class="project-link muted">Em desenvolvimento</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ── EXPERIENCIA ── -->
+    <section id="experiencia" class="section">
+        <div class="section-head">
+            <div class="eyebrow">$ cat experiencia.log</div>
+            <h2 class="section-title">Experiência profissional</h2>
+        </div>
+        <div class="section-inner">
+            <div class="exp-list">
+
+                <div class="exp-item fade-up">
+                    <div class="exp-period">2026 — presente</div>
+                    <div>
+                        <div class="exp-role">Correspondente Bancário</div>
+                        <div class="exp-company">Empresa Potencial Soluções · Presencial</div>
+                        <p class="exp-desc">Encaminhamento de propostas e atendimento ao cliente.</p>
+                    </div>
+                </div>
+
+                <div class="exp-item fade-up">
+                    <div class="exp-period">2024 — 2025</div>
+                    <div>
+                        <div class="exp-role">Repositor de frios</div>
+                        <div class="exp-company">Tatico</div>
+                        <p class="exp-desc">Reposição de produtos em estoque e atendimento ao cliente.</p>
+                    </div>
+                </div>
+
+                <div class="exp-item fade-up">
+                    <div class="exp-period">2023</div>
+                    <div>
+                        <div class="exp-role">Auxiliar de cozinha — Freelancer</div>
+                        <div class="exp-company">Autônomo</div>
+                        <p class="exp-desc">Auxílio na preparação de refeições e manutenção da área de
+                            cozinha.</p>
+                    </div>
+                </div>
+
+                <div class="exp-item fade-up">
+                    <div class="exp-period">2021 — 2022</div>
+                    <div>
+                        <div class="exp-role">Manutenção de equipamentos e computadores — Freelancer</div>
+                        <div class="exp-company">Autônomo</div>
+                        <p class="exp-desc">Manutenção de computadores e atendimento ao cliente.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ── AGORA ── -->
+    <section id="agora" class="section">
+        <div class="section-head">
+            <div class="eyebrow">$ ./agora.sh --status</div>
+            <h2 class="section-title">O que eu ando fazendo</h2>
+        </div>
+        <div class="agora-grid">
+            <div class="agora-card fade-up">
+                <div class="agora-label">Estudando</div>
+                <p class="agora-text">Estrutura de dados, SQL e lógica de programação no 2º semestre de
+                    ADS.</p>
+            </div>
+            <div class="agora-card fade-up" style="transition-delay:0.08s">
+                <div class="agora-label">Buscando</div>
+                <p class="agora-text">Vagas remotas de desenvolvimento e me preparando para o concurso do
+                    Banco do Brasil (Cesgranrio).</p>
+            </div>
+            <div class="agora-card fade-up" style="transition-delay:0.16s">
+                <div class="agora-label">Construindo</div>
+                <p class="agora-text">Novos projetos pro portfólio, sempre documentando o processo no
+                    GitHub.</p>
+            </div>
+        </div>
+        <div class="agora-note">atualizado em julho de 2026</div>
+    </section>
+
+    <!-- ── CONTATO ── -->
+    <section id="contato" class="section">
+        <div class="section-head">
+            <div class="eyebrow">$ contato --enviar</div>
+            <h2 class="section-title">Vamos trabalhar juntos?</h2>
+        </div>
+        <div class="contact-grid">
+            <div>
+                <p class="contact-text">
+                    Estou sempre aberto a novas oportunidades e projetos interessantes. Seja para uma
+                    conversa rápida ou uma parceria longa, me manda uma mensagem.
+                </p>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/caike-menezes" class="social-link" target="_blank">
+                        LinkedIn <span class="arrow">→</span>
+                    </a>
+                    <a href="https://github.com/Dev-Caike" class="social-link" target="_blank">
+                        GitHub <span class="arrow">→</span>
+                    </a>
+                    <a href="mailto:mcaike.dev@gmail.com" class="social-link">
+                        E-mail <span class="arrow">→</span>
+                    </a>
+                    <a href="https://wa.me/5561991505201" class="social-link" target="_blank">
+                        WhatsApp <span class="arrow">→</span>
+                    </a>
+                </div>
+            </div>
+            <form class="contact-form" onsubmit="handleSubmit(event)">
+                <input type="text" name="nome" placeholder="Seu nome" required />
+                <input type="email" name="email" placeholder="Seu e-mail" required />
+                <textarea name="mensagem" placeholder="Sua mensagem..." required></textarea>
+                <button type="submit" class="btn-primary" style="width:100%;padding:1rem">
+                    Enviar mensagem →
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <span>Caike Ribeiro © 2026</span>
+        <span>feito à mão, sem template.</span>
+    </footer>
+
+    <script>
+        // Fade-up ao rolar
+        const fadeEls = document.querySelectorAll('.fade-up');
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    fadeObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+        fadeEls.forEach(el => fadeObserver.observe(el));
+
+        // Formulário de contato
+        const WEBHOOK_URL = 'https://customs-until-divisible.ngrok-free.app/webhook/1c343055-8344-495e-932d-65df32615a40';
+
+        async function handleSubmit(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const form = e.target;
+
+            const dados = {
+                nome: form.nome.value,
+                email: form.email.value,
+                mensagem: form.mensagem.value
+            };
+
+            btn.textContent = 'Enviando...';
+            btn.disabled = true;
+
+            try {
+                await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    mode: 'no-cors',
+                    body: JSON.stringify(dados)
+                });
+                btn.textContent = 'Mensagem enviada ✓';
+                form.reset();
+            } catch (err) {
+                btn.textContent = 'Erro ao enviar. Tente novamente.';
+            } finally {
+                btn.disabled = false;
+                setTimeout(() => {
+                    btn.textContent = 'Enviar mensagem →';
+                }, 3000);
+            }
+        }
+    </script>
+
+</body>
+
+</html>
