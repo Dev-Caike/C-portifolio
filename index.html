@@ -10,7 +10,8 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
         rel="stylesheet" />
-    <style>
+    <style> 
+
         * {
             margin: 0;
             padding: 0;
@@ -40,6 +41,7 @@
             html {
                 scroll-behavior: auto;
             }
+
             * {
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
@@ -187,8 +189,34 @@
 
         /* ── HERO ── */
         #inicio {
-            padding: 9.5rem 3rem 0;
+            padding: 9.5rem 3rem 2rem;
             position: relative;
+            isolation: isolate;
+            overflow: hidden;
+            min-height: 100vh;
+        }
+
+        #inicio::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(135deg, rgba(10, 10, 15, 0.94) 0%, rgba(10, 10, 15, 0.72) 42%, rgba(10, 10, 15, 0.28) 100%);
+            z-index: -1;
+            transform: scale(1.03);
+        }
+
+        .hero-video {
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .hero-video video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .hero-grid {
@@ -346,9 +374,11 @@
                 top: -3px;
                 opacity: 0;
             }
+
             15% {
                 opacity: 1;
             }
+
             100% {
                 top: 100%;
                 opacity: 0;
@@ -959,6 +989,7 @@
 
         /* ── RESPONSIVE ── */
         @media (max-width: 900px) {
+
             .wrap,
             nav,
             #inicio,
@@ -1039,6 +1070,11 @@
 
     <!-- ── HERO ── -->
     <section id="inicio">
+        <div class="hero-video">
+            <video autoplay muted loop playsinline>
+                <source src="Mp4/ovelay_fundo.mp4" type="video/mp4" />
+            </video>
+        </div>
         <div class="hero-grid">
             <div class="hero-left">
                 <div class="eyebrow">$ whoami</div>
@@ -1048,8 +1084,10 @@
                 </h1>
                 <div class="hero-role">Dev <b>Back-end</b> em formação — 2º semestre de ADS</div>
                 <p class="hero-desc">
-                    Estou construindo minha base em desenvolvimento back-end e gosto de aprender colocando a mão na massa.
-                    Tenho dedicado meu tempo aos estudos, projetos e à evolução constante para conquistar minha primeira oportunidade em TI.
+                    Estou construindo minha base em desenvolvimento back-end e gosto de aprender colocando a mão na
+                    massa.
+                    Tenho dedicado meu tempo aos estudos, projetos e à evolução constante para conquistar minha primeira
+                    oportunidade em TI.
                 </p>
                 <div class="hero-buttons">
                     <a href="#projetos" class="btn-primary">Ver projetos</a>
@@ -1059,7 +1097,7 @@
             <div class="hero-right">
                 <div class="portrait">
                     <div class="portrait-frame">
-                        <img src="IMG/eu.photonew.jpg" alt="Foto de Caike Ribeiro" />
+                        <img src="" alt="Foto de Caike Ribeiro" />
                         <div class="portrait-tint"></div>
                         <div class="portrait-scan"></div>
                     </div>
@@ -1114,9 +1152,11 @@
                     inteiro por trás de um produto.
                 </p>
                 <div class="focus-list">
-                    <div class="focus-item"><span class="pre">&gt;</span> estudando estrutura de dados, SQL e lógica</div>
+                    <div class="focus-item"><span class="pre">&gt;</span> estudando estrutura de dados, SQL e lógica
+                    </div>
                     <div class="focus-item"><span class="pre">&gt;</span> construindo projetos reais pro portfólio</div>
-                    <div class="focus-item"><span class="pre">&gt;</span> de olho em vagas remotas e no concurso do Banco do Brasil</div>
+                    <div class="focus-item"><span class="pre">&gt;</span> de olho em vagas remotas e no concurso do
+                        Banco do Brasil</div>
                 </div>
             </div>
         </div>
@@ -1199,7 +1239,7 @@
                 <div class="project-card fade-up" style="transition-delay:0.16s">
                     <div class="project-card-top">
                         <span class="project-index">03 / APP</span>
-                        <span class="project-status wip"><span class="dot"></span>em build</span>
+                        <span class="project-status wip"><span class="off"></span>em build</span>
                     </div>
                     <div class="project-name">E-commerce App</div>
                     <div class="project-tags">
@@ -1213,7 +1253,29 @@
                     </div>
                 </div>
 
+                <div class="project-card fade-up" style="transition-delay:0.08s">
+                    <div class="project-card-top">
+                        <span class="project-index">04 / APP</span>
+                        <span class="project-status"><span class=""></span>off</span>
+                    </div>
+                    <div class="project-name">Controle</div>
+                    <div class="project-tags">
+                        <span class="project-tag">JavaScript</span>
+                        <span class="project-tag">Firebase</span>
+                    </div>
+                    <p class="project-desc">Plataforma com os melhores porjetos, para facilitar a vida das pessoas.
+                        aqui voce vai encontra as melhores ferramentas para o seu dia a dia, e vai poder controlar tudo
+                        de forma simples e rapida.
+                    </p>
+                    <div class="project-links">
+                        <a href="" class="project-link">Desenvolvimento→</a>
+                        <a href="" class="project-link">data 12/07/2026 →</a>
+                    </div>
+                </div>
+
             </div>
+
+
         </div>
     </section>
 
